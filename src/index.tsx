@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties, useState, useEffect, useRef } from 'react';
+import { StrictMode, CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
@@ -13,33 +13,21 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [articleState, setArticleState] = useState(defaultArticleState);
-	const sidebarRef = useRef<HTMLElement | null>(null);
 	const [formValues, setFormValues] = useState(defaultArticleState);
 
-	useEffect(() => {
-		function handleClickOutside(event: MouseEvent) {
-			if (
-				sidebarRef.current &&
-				!sidebarRef.current.contains(event.target as Node)
-			) {
-				setIsSidebarOpen(false);
-			}
-		}
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => document.removeEventListener('mousedown', handleClickOutside);
-	}, []);
-
-	const handleChange = (name: keyof typeof formValues, value: any) => {
+	const handleChange = (
+		name: keyof typeof formValues,
+		value: (typeof formValues)[keyof typeof formValues]
+	) => {
 		setFormValues((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handleApply = () => {
+	const handleApplySettings = () => {
 		setArticleState(formValues);
 	};
 
-	const handleReset = () => {
+	const handleResetSettings = () => {
 		setFormValues(defaultArticleState);
 		setArticleState(defaultArticleState);
 	};
@@ -57,13 +45,10 @@ const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				isOpen={isSidebarOpen}
-				onToggle={() => setIsSidebarOpen((prev) => !prev)}
-				sidebarRef={sidebarRef}
 				formValues={formValues}
 				onChange={handleChange}
-				onApply={handleApply}
-				onReset={handleReset}
+				handleApplySettings={handleApplySettings}
+				handleResetSettings={handleResetSettings}
 			/>
 
 			<Article />

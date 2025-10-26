@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
@@ -7,50 +8,67 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
+	OptionType,
 } from 'src/constants/articleProps';
 import styles from './ArticleParamsForm.module.scss';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
+import clsx from 'clsx';
 
 type ArticleParamsFormProps = {
-	isOpen: boolean;
-	onToggle: () => void;
-	sidebarRef: React.RefObject<HTMLElement>;
 	formValues: typeof import('src/constants/articleProps').defaultArticleState;
 	onChange: (
 		name: keyof typeof import('src/constants/articleProps').defaultArticleState,
-		value: any
+		value: OptionType
 	) => void;
-	onApply: () => void;
-	onReset: () => void;
+	handleApplySettings: () => void;
+	handleResetSettings: () => void;
 };
 
 export const ArticleParamsForm = ({
-	isOpen,
-	onToggle,
-	sidebarRef,
 	formValues,
 	onChange,
-	onApply,
-	onReset,
+	handleApplySettings,
+	handleResetSettings,
 }: ArticleParamsFormProps) => {
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const sidebarRef = useRef<HTMLElement | null>(null);
+
+	const handleSidebarToggle = () => setIsSidebarOpen((prev) => !prev);
+
+	useEffect(() => {
+		if (!isSidebarOpen) return;
+
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				sidebarRef.current &&
+				!sidebarRef.current.contains(event.target as Node)
+			) {
+				setIsSidebarOpen(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	}, [isSidebarOpen]);
+
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={onToggle} />
+			<ArrowButton isOpen={isSidebarOpen} onClick={handleSidebarToggle} />
 			<aside
 				ref={sidebarRef}
-				className={`${styles.container} ${
-					isOpen ? styles.container_open : ''
-				}`}>
+				className={clsx(styles.container, {
+					[styles.container_open]: isSidebarOpen,
+				})}>
 				<form
 					className={styles.form}
 					onSubmit={(e) => {
 						e.preventDefault();
-						onApply();
+						handleApplySettings();
 					}}
 					onReset={(e) => {
 						e.preventDefault();
-						onReset();
+						handleResetSettings();
 					}}>
 					<h2 className={styles.title}>ЗАДАЙТЕ ПАРАМЕТРЫ</h2>
 					<Select
