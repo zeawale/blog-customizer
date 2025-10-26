@@ -14,22 +14,9 @@ const root = createRoot(domNode);
 
 const App = () => {
 	const [articleState, setArticleState] = useState(defaultArticleState);
-	const [formValues, setFormValues] = useState(defaultArticleState);
 
-	const handleChange = (
-		name: keyof typeof formValues,
-		value: (typeof formValues)[keyof typeof formValues]
-	) => {
-		setFormValues((prev) => ({ ...prev, [name]: value }));
-	};
-
-	const handleApplySettings = () => {
-		setArticleState(formValues);
-	};
-
-	const handleResetSettings = () => {
-		setFormValues(defaultArticleState);
-		setArticleState(defaultArticleState);
+	const handleApplySettings = (newSettings: typeof defaultArticleState) => {
+		setArticleState(newSettings);
 	};
 
 	return (
@@ -45,10 +32,8 @@ const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				formValues={formValues}
-				onChange={handleChange}
-				handleApplySettings={handleApplySettings}
-				handleResetSettings={handleResetSettings}
+				onApplySettings={handleApplySettings}
+				currentSettings={articleState}
 			/>
 
 			<Article />

@@ -8,7 +8,7 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
-	OptionType,
+	defaultArticleState,
 } from 'src/constants/articleProps';
 import styles from './ArticleParamsForm.module.scss';
 import { RadioGroup } from 'src/ui/radio-group';
@@ -16,25 +16,36 @@ import { Separator } from 'src/ui/separator';
 import clsx from 'clsx';
 
 type ArticleParamsFormProps = {
-	formValues: typeof import('src/constants/articleProps').defaultArticleState;
-	onChange: (
-		name: keyof typeof import('src/constants/articleProps').defaultArticleState,
-		value: OptionType
-	) => void;
-	handleApplySettings: () => void;
-	handleResetSettings: () => void;
+	onApplySettings: (newSettings: typeof defaultArticleState) => void;
+	currentSettings: typeof defaultArticleState;
 };
 
 export const ArticleParamsForm = ({
-	formValues,
-	onChange,
-	handleApplySettings,
-	handleResetSettings,
+	onApplySettings,
+	currentSettings,
 }: ArticleParamsFormProps) => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const sidebarRef = useRef<HTMLElement | null>(null);
 
+	const [formValues, setFormValues] = useState(currentSettings);
+
 	const handleSidebarToggle = () => setIsSidebarOpen((prev) => !prev);
+
+	const onChange = (
+		name: keyof typeof formValues,
+		value: (typeof formValues)[keyof typeof formValues]
+	) => {
+		setFormValues((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleApplySettings = () => {
+		onApplySettings(formValues);
+	};
+
+	const handleResetSettings = () => {
+		setFormValues(defaultArticleState);
+		onApplySettings(defaultArticleState);
+	};
 
 	useEffect(() => {
 		if (!isSidebarOpen) return;
