@@ -1,54 +1,58 @@
-# Проектная работа: Вёрстка проекта
+<div align="center">
 
-## Шаг первый. Изучаем имеющиеся компоненты
+# blog-customizer ✏️
 
-[Макет проекта](https://www.figma.com/file/FEeiiGLOsE7ktXbPpBxYoD/Custom-dropdown?type=design&node-id=0%3A1&mode=design&t=eXRJnWC6Xsuw0qR4-1)
+### Interactive Blog Article Customizer
 
-Для запуска Storybook выполните:
+*live-customize article styles through a sidebar panel*
 
+![TypeScript](https://img.shields.io/badge/TypeScript-1e1e2e?style=for-the-badge&logo=typescript&logoColor=a6e3a1)
+![React](https://img.shields.io/badge/React-1e1e2e?style=for-the-badge&logo=react&logoColor=a6e3a1)
+![CSS3](https://img.shields.io/badge/CSS_Variables-1e1e2e?style=for-the-badge&logo=css3&logoColor=a6e3a1)
+![Storybook](https://img.shields.io/badge/Storybook-1e1e2e?style=for-the-badge&logo=storybook&logoColor=a6e3a1)
+
+</div>
+
+---
+
+## 📋 about
+
+A React app that lets users customize a blog article's appearance through a collapsible settings sidebar. All styles are applied via CSS custom properties.
+
+<!-- Add a screenshot or GIF here -->
+<!-- ![demo](link-to-screenshot) -->
+
+## ✨ features
+
+- ⚙️ Collapsible sidebar (click arrow to open, click outside to close)
+- 🎨 Live style customization via CSS variables
+- ✅ Apply / Reset buttons — changes apply only on confirm
+- 🧩 Storybook component library
+
+## 🛠️ tech stack
+
+- React + TypeScript
+- CSS Custom Properties
+- Storybook
+- ESLint + Stylelint + Prettier
+
+## 🚀 getting started
+
+```bash
+git clone https://github.com/zeawale/blog-customizer.git
+cd blog-customizer
+
+npm install
+npm start
 ```
+
+```bash
+# run storybook
 npm run storybook
 ```
 
-Для запуска линтера для стилей выполните:
+---
 
-```
-npm run stylelint
-```
-
-Для запуска линтера выполните:
-
-```
-npm run lint
-```
-
-Для запуска форматтера выполните:
-
-```
-npm run format
-```
-
-### Функциональные требования
-
-- При нажатии на «стрелку» открывается сайдбар с настройками, при повторном нажатии или клике вне сайдбар закрывается.
-- При изменении настроек в сайдбаре они не применяются сразу.
-- После нажатия на «применить» стили применяются к статье.
-- При нажатии «сбросить» настройки в форме сбрасываются на начальные, которые были при открытии страницы, и стили применяются к статье.
-- Настройки устанавливаются через CSS-переменные, которые уже есть в стилях и установлены в коде в дефолтные значения.
-
-## Шаг второй. Реализация формы
-
-Продумайте следующие моменты, прежде чем приступать к коду: 
-
-- как будет организована композиция,
-- где вы будете хранить состояние,
-- как передавать данные между формой и страницей.
-
-Затем реализуйте механику открытия-закрытия панели с формой, после этого можно будет временно зафиксировать ее пропсом для удобства реализации.
-
-После этого реализуйте форму из имеющихся компонент согласно макету.
-
-
-## Шаг третий. Обеспечьте передачу данных между формой и страницей
-
-Реализуйте по отдельности сохранение состояния страницы и состояние формы. Обеспечьте применение нового состояния после нажатия на «применить».
+<div align="center">
+<sub>Yandex Practicum · Fullstack Developer</sub>
+</div>
